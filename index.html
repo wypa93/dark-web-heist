@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>heist7x9k2hemila.onion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+  <div class="onion-bar">
+    <span class="connection-pulse" aria-hidden="true"></span>
+    <span class="onion-lock" aria-hidden="true">🔒</span>
+    <span class="onion-url">http://heist7x9k2hemila.onion/access</span>
+    <span class="tor-badge">TOR</span>
+    <span class="enc-badge">PRIVATE</span>
+  </div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="fog" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <p class="whisper" id="whisper" aria-hidden="true"></p>
+  <div id="flash-overlay" class="flash-overlay" aria-hidden="true"></div>
+  <div id="particles" class="particles" aria-hidden="true"></div>
+
+  <header class="hud" id="hud" hidden>
+    <div class="hud-left">
+      <span class="hud-label">[keys found]</span>
+      <div class="level-progress" id="level-progress" aria-label="Level progress"></div>
+    </div>
+    <div class="symbol-slots" id="symbol-slots"></div>
+  </header>
+
+  <main class="terminal-wrap">
+    <section id="landing" class="screen active">
+      <div class="terminal-window">
+        <div class="terminal-titlebar">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="titlebar-text">the_dark_web_heist</span>
+        </div>
+        <div class="terminal-body">
+          <h1 class="screen-title">:: THE DARK WEB HEIST ::</h1>
+          <p class="prompt-line"><span class="prompt">&gt;</span> login hemila_the_hacker</p>
+          <p class="dim eerie">// shhh... you're on a secret site. don't tell anyone.</p>
+          <p class="dim onion-line">heist7x9k2hemila.onion · <span class="accent">online</span></p>
+          <br>
+          <p>Pascal hid the prize behind 6 locked doors.</p>
+          <p>Answer each question to collect a <span class="accent">secret key piece</span>.</p>
+          <p>Put them together, open the safe, and claim what's inside.</p>
+          <br>
+          <p class="rules-header">$ how_to_play.txt</p>
+          <ul class="rules">
+            <li>30 seconds per question</li>
+            <li>3 tries per question — then you start over</li>
+            <li>pick one answer only</li>
+            <li>collect all 6 keys to unlock the safe</li>
+          </ul>
+          <br>
+          <button type="button" class="btn-primary" id="btn-start">
+            <span class="prompt">&gt;</span> start_heist<span class="cursor-blink">_</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="quiz" class="screen">
+      <div class="terminal-window">
+        <div class="terminal-titlebar">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="titlebar-text" id="quiz-title">question_01</span>
+        </div>
+        <div class="terminal-body">
+          <div class="quiz-meta">
+            <span id="level-label">level 1 / 6</span>
+            <span class="retries" id="retries-display">tries left: 3</span>
+          </div>
+          <div class="timer-wrap">
+            <div class="timer-track">
+              <div class="timer-bar" id="timer-bar"></div>
+            </div>
+            <span class="timer-text" id="timer-text">00:30</span>
+          </div>
+          <p class="question-text" id="question-text"></p>
+          <div class="options" id="options" role="radiogroup"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="symbol" class="screen">
+      <div class="terminal-window">
+        <div class="terminal-titlebar">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="titlebar-text">key_found.log</span>
+        </div>
+        <div class="terminal-body symbol-body">
+          <p class="ok-line glitch" id="symbol-ok-line">[OK] key piece collected!</p>
+          <div class="symbol-display haunted" id="symbol-display"></div>
+          <p class="dim" id="symbol-hint"></p>
+          <button type="button" class="btn-primary" id="btn-continue">
+            <span class="prompt">&gt;</span> keep_going<span class="cursor-blink">_</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="safe" class="screen">
+      <div class="terminal-window safe-window">
+        <div class="terminal-titlebar">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+          <span class="titlebar-text">the_safe</span>
+        </div>
+        <div class="terminal-body">
+          <p class="prompt-line"><span class="prompt">$</span> open_safe()</p>
+          <p class="dim eerie">// tap your key pieces below, or type the full code</p>
+          <div class="safe-visual" id="safe-visual">
+            <div class="safe-door" id="safe-door">
+              <div class="safe-dial">🔐</div>
+              <p class="safe-status" id="safe-status">LOCKED</p>
+            </div>
+          </div>
+          <div class="inventory-pick" id="inventory-pick"></div>
+          <form class="unlock-form" id="unlock-form">
+            <label for="unlock-input" class="sr-only">Combination</label>
+            <span class="input-prefix">$ code =</span>
+            <input type="text" id="unlock-input" class="unlock-input" autocomplete="off" spellcheck="false" placeholder="enter the secret code...">
+            <button type="submit" class="btn-secondary">unlock</button>
+          </form>
+          <p class="error-msg" id="safe-error" hidden></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="reward" class="screen casino">
+      <div class="casino-frame">
+        <div class="casino-header">
+          <span class="chip">◈</span>
+          <h1 class="casino-title">YOU CRACKED IT!</h1>
+          <span class="chip">◈</span>
+        </div>
+        <div class="casino-body">
+          <p class="casino-sub">:: PRIZE UNLOCKED ::</p>
+          <div class="prize-card">
+            <p class="roulette-icon" aria-hidden="true">🎰</p>
+            <p><strong>From:</strong> Pascal</p>
+            <p><strong>Part 1:</strong> Dinner at a secret restaurant</p>
+            <p><strong>Part 2:</strong> Roulette night at Swiss casinos (gotta bring an ID — at the door you'll find out if Pascal is actually <em>not</em> on Interpol's most wanted list)</p>
+            <p class="prize-tagline">You earned it, hacker. Well done.</p>
+          </div>
+          <div class="reward-code-area" id="reward-code-area" hidden>
+            <p class="code-label">YOUR PRIZE CODE</p>
+            <code class="reward-code" id="reward-code"></code>
+          </div>
+          <button type="button" class="btn-casino" id="btn-claim">
+            &gt; claim_prize
+          </button>
+          <p class="toast" id="toast" hidden>Code copied! Show it to Pascal.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
