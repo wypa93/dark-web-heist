@@ -1,6 +1,6 @@
-# Hemila's Dark Web Heist
+# The Dark Web Heist
 
-A fun dark-web themed quiz for Hemila — answer questions, collect keys, open the safe. Static site — no build step.
+A fun dark-web themed quiz — answer questions, collect keys, open the safe. Static site — no build step.
 
 ## Local preview
 
@@ -25,7 +25,7 @@ Open http://localhost:8080
 
 Edit [`js/config.js`](js/config.js):
 
-- `symbols` — one per level (shown when Hemila passes each question)
+- `symbols` — one per level (shown when each question is passed)
 - `combination` — exact string to unlock the safe
 - `alternateCombinations` — optional extra accepted strings
 
@@ -33,4 +33,4 @@ Edit [`js/config.js`](js/config.js):
 
 - 30 seconds per question
 - 3 retries per question, then full restart from landing
-- 6 levels → collect symbols → enter combination on safe → claim reward code
+- 7 levels → collect symbols → enter combination on safe → claim reward code

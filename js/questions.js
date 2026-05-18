@@ -57,4 +57,14 @@ export const QUESTIONS = [
     ],
     correctIndex: 3,
   },
+  {
+    level: 7,
+    text: 'What is a TOR browser?',
+    options: [
+      'A browser that routes your traffic through the Tor network for privacy and anonymity',
+      'A browser exclusively for finding the best onion soup recipes on the dark web',
+      'Like Chrome, but it wears a hoodie and refuses to tell anyone your IP address',
+    ],
+    correctIndex: 0,
+  },
 ];
