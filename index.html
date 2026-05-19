@@ -52,6 +52,7 @@
           <p>Pascal hid the prize behind 7 locked doors.</p>
           <p>Answer each question to collect a <span class="accent">secret key piece</span>.</p>
           <p>Put them together, open the safe, and claim what's inside.</p>
+          <p class="fbi-warning">If you fail, the FBI will be notified immediately about what you have done.</p>
           <br>
           <p class="rules-header">$ how_to_play.txt</p>
           <ul class="rules">
@@ -165,6 +166,12 @@
             &gt; claim_prize
           </button>
           <p class="toast" id="toast" hidden>Code copied! Show it to Pascal.</p>
+          <div class="self-destruct" id="self-destruct" hidden>
+            <p class="self-destruct-label">THIS SITE WILL SELF-DESTRUCT IN</p>
+            <p class="self-destruct-timer" id="self-destruct-timer">30</p>
+            <p class="self-destruct-sub">seconds. Goodbye.</p>
+          </div>
+          <p class="self-destruct-goodbye" id="self-destruct-goodbye" hidden>Goodbye.</p>
         </div>
       </div>
     </section>

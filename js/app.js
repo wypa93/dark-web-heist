@@ -3,6 +3,7 @@ import { QUESTIONS } from './questions.js';
 
 const TIMER_SECONDS = 30;
 const MAX_RETRIES = 3;
+const SELF_DESTRUCT_SECONDS = 30;
 
 const WHISPERS = [
   'pascal is watching...',
@@ -56,6 +57,11 @@ const safeStatus = $('#safe-status');
 const rewardCodeArea = $('#reward-code-area');
 const rewardCodeEl = $('#reward-code');
 const toast = $('#toast');
+const selfDestruct = $('#self-destruct');
+const selfDestructTimer = $('#self-destruct-timer');
+const selfDestructGoodbye = $('#self-destruct-goodbye');
+
+let selfDestructId = null;
 
 let state = {
   currentLevel: 0,
@@ -565,6 +571,7 @@ async function onClaimReward() {
   rewardCodeArea.classList.add('reveal');
   burstParticles(20, true);
   playFlash('success');
+  btnClaim.hidden = true;
 
   try {
     await navigator.clipboard.writeText(code);
@@ -572,6 +579,60 @@ async function onClaimReward() {
   } catch {
     showToast('Select and copy the code above.');
   }
+
+  startSelfDestruct();
+}
+
+function startSelfDestruct() {
+  if (!selfDestruct || !selfDestructTimer) return;
+  clearSelfDestruct();
+  selfDestruct.hidden = false;
+  selfDestructGoodbye.hidden = true;
+  document.querySelector('.casino-frame')?.classList.add('destruct-armed');
+
+  let secondsLeft = SELF_DESTRUCT_SECONDS;
+  selfDestructTimer.textContent = String(secondsLeft);
+
+  selfDestructId = setInterval(() => {
+    secondsLeft -= 1;
+    selfDestructTimer.textContent = String(secondsLeft);
+    selfDestructTimer.classList.remove('tick');
+    void selfDestructTimer.offsetWidth;
+    selfDestructTimer.classList.add('tick');
+
+    if (secondsLeft <= 5) {
+      selfDestruct.classList.add('critical');
+    }
+
+    if (secondsLeft <= 0) {
+      clearSelfDestruct();
+      triggerSelfDestruct();
+    }
+  }, 1000);
+}
+
+function clearSelfDestruct() {
+  if (selfDestructId) {
+    clearInterval(selfDestructId);
+    selfDestructId = null;
+  }
+}
+
+function triggerSelfDestruct() {
+  selfDestruct.hidden = true;
+  selfDestructGoodbye.hidden = false;
+  document.body.classList.add('site-destroyed');
+  playFlash('fail');
+
+  setTimeout(() => {
+    screens.reward.innerHTML = `
+      <div class="destroyed-screen">
+        <p class="destroyed-text">[ SIGNAL LOST ]</p>
+        <p class="destroyed-sub">This site has self-destructed.</p>
+        <p class="destroyed-sub dim">Goodbye.</p>
+      </div>
+    `;
+  }, 1200);
 }
 
 function showToast(msg = 'Code copied! Show it to Pascal.') {

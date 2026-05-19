@@ -23,7 +23,7 @@ export const QUESTIONS = [
       'By fact-checking his Swiss-German in front of strangers',
       'By abandoning Pascal on a playground full of mad children making a lot of noise',
     ],
-    correctIndex: 0,
+    correctIndex: 1,
   },
   {
     level: 4,

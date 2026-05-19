@@ -1181,6 +1181,111 @@ body.static-burst::after {
   transform: translateY(-1px);
 }
 
+.fbi-warning {
+  color: var(--danger);
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid rgba(255, 68, 68, 0.45);
+  background: rgba(255, 68, 68, 0.08);
+  text-shadow: 0 0 10px var(--glow-danger);
+}
+
+.self-destruct {
+  margin-top: 1.75rem;
+  padding: 1.25rem 1rem;
+  border: 2px solid var(--danger);
+  background: rgba(255, 68, 68, 0.1);
+  box-shadow: 0 0 30px var(--glow-danger);
+  animation: destructPulse 1s ease-in-out infinite;
+}
+
+.self-destruct.critical {
+  animation: destructPulse 0.4s ease-in-out infinite;
+  border-color: #ff0040;
+}
+
+@keyframes destructPulse {
+  50% { box-shadow: 0 0 40px rgba(255, 0, 64, 0.55); }
+}
+
+.self-destruct-label {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--danger);
+}
+
+.self-destruct-timer {
+  margin: 0;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #ff0040;
+  text-shadow: 0 0 24px var(--glow-danger);
+  font-variant-numeric: tabular-nums;
+}
+
+.self-destruct-timer.tick {
+  animation: destructTick 0.35s ease;
+}
+
+@keyframes destructTick {
+  50% { transform: scale(1.12); }
+}
+
+.self-destruct-sub {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+  color: var(--text);
+  letter-spacing: 0.06em;
+}
+
+.self-destruct-goodbye {
+  margin-top: 2rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--danger);
+  text-align: center;
+  text-shadow: 0 0 20px var(--glow-danger);
+  animation: fadeIn 0.6s ease;
+}
+
+.casino-frame.destruct-armed {
+  border-color: var(--danger);
+  box-shadow: 0 0 50px var(--glow-danger);
+}
+
+body.site-destroyed {
+  animation: siteFadeOut 1.2s ease forwards;
+}
+
+@keyframes siteFadeOut {
+  to { filter: brightness(0.2) contrast(1.2); }
+}
+
+.destroyed-screen {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.destroyed-text {
+  font-size: 1.5rem;
+  color: var(--danger);
+  letter-spacing: 0.12em;
+  margin: 0 0 1rem;
+}
+
+.destroyed-sub {
+  margin: 0.35rem 0;
+  font-size: 1rem;
+}
+
 .toast {
   margin-top: 1rem;
   color: var(--green);
@@ -1252,6 +1357,12 @@ body.static-burst::after {
 
   .hud.visible {
     transform: none;
+  }
+
+  .self-destruct,
+  .self-destruct-timer.tick,
+  body.site-destroyed {
+    animation: none !important;
   }
 
   .whisper.visible {
