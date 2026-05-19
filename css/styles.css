@@ -1191,7 +1191,11 @@ body.static-burst::after {
   text-shadow: 0 0 10px var(--glow-danger);
 }
 
-.self-destruct-overlay {
+.self-destruct-overlay[hidden] {
+  display: none !important;
+}
+
+.self-destruct-overlay:not([hidden]) {
   position: fixed;
   inset: 0;
   z-index: 3000;
@@ -1300,7 +1304,11 @@ body.destruct-active {
   letter-spacing: 0.08em;
 }
 
-.self-destruct-overlay .self-destruct-goodbye {
+.self-destruct-goodbye[hidden] {
+  display: none !important;
+}
+
+.self-destruct-overlay .self-destruct-goodbye:not([hidden]) {
   position: fixed;
   inset: 0;
   display: flex;

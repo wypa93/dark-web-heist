@@ -76,6 +76,10 @@ let state = {
 function init() {
   renderLevelProgress();
   renderSymbolSlots();
+  if (selfDestructOverlay) selfDestructOverlay.hidden = true;
+  if (selfDestructGoodbye) selfDestructGoodbye.hidden = true;
+  selfDestruct?.classList.remove('critical');
+  document.body.classList.remove('destruct-active', 'site-destroyed');
   btnStart.addEventListener('click', startChallenge);
   btnContinue.addEventListener('click', onContinueAfterSymbol);
   unlockForm.addEventListener('submit', onUnlockSubmit);
@@ -587,6 +591,7 @@ async function onClaimReward() {
 function startSelfDestruct() {
   if (!selfDestructOverlay || !selfDestructTimer) return;
   clearSelfDestruct();
+  selfDestruct?.classList.remove('critical');
   selfDestructOverlay.hidden = false;
   selfDestructGoodbye.hidden = true;
   document.body.classList.add('destruct-active');
