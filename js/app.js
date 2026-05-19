@@ -3,7 +3,7 @@ import { QUESTIONS } from './questions.js';
 
 const TIMER_SECONDS = 30;
 const MAX_RETRIES = 3;
-const SELF_DESTRUCT_SECONDS = 30;
+const SELF_DESTRUCT_SECONDS = 10;
 
 const WHISPERS = [
   'pascal is watching...',
@@ -58,6 +58,7 @@ const rewardCodeArea = $('#reward-code-area');
 const rewardCodeEl = $('#reward-code');
 const toast = $('#toast');
 const selfDestruct = $('#self-destruct');
+const selfDestructOverlay = $('#self-destruct-overlay');
 const selfDestructTimer = $('#self-destruct-timer');
 const selfDestructGoodbye = $('#self-destruct-goodbye');
 
@@ -584,10 +585,11 @@ async function onClaimReward() {
 }
 
 function startSelfDestruct() {
-  if (!selfDestruct || !selfDestructTimer) return;
+  if (!selfDestructOverlay || !selfDestructTimer) return;
   clearSelfDestruct();
-  selfDestruct.hidden = false;
+  selfDestructOverlay.hidden = false;
   selfDestructGoodbye.hidden = true;
+  document.body.classList.add('destruct-active');
   document.querySelector('.casino-frame')?.classList.add('destruct-armed');
 
   let secondsLeft = SELF_DESTRUCT_SECONDS;
@@ -601,7 +603,7 @@ function startSelfDestruct() {
     selfDestructTimer.classList.add('tick');
 
     if (secondsLeft <= 5) {
-      selfDestruct.classList.add('critical');
+      selfDestruct?.classList.add('critical');
     }
 
     if (secondsLeft <= 0) {
@@ -619,12 +621,12 @@ function clearSelfDestruct() {
 }
 
 function triggerSelfDestruct() {
-  selfDestruct.hidden = true;
   selfDestructGoodbye.hidden = false;
   document.body.classList.add('site-destroyed');
   playFlash('fail');
 
   setTimeout(() => {
+    selfDestructOverlay.hidden = true;
     screens.reward.innerHTML = `
       <div class="destroyed-screen">
         <p class="destroyed-text">[ SIGNAL LOST ]</p>

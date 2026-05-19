@@ -152,7 +152,7 @@
         <div class="casino-body">
           <p class="casino-sub">:: PRIZE UNLOCKED ::</p>
           <div class="prize-card">
-            <p class="roulette-icon" aria-hidden="true">🎱</p>
+            <p class="prize-icon" aria-hidden="true">🎯</p>
             <p><strong>From:</strong> Pascal</p>
             <p><strong>Part 1:</strong> Dinner at a secret restaurant</p>
             <p><strong>Part 2:</strong> Billiards night — let's see if you're really as competitive as you say you are</p>
@@ -166,16 +166,27 @@
             &gt; claim_prize
           </button>
           <p class="toast" id="toast" hidden>Code copied! Show it to Pascal.</p>
-          <div class="self-destruct" id="self-destruct" hidden>
-            <p class="self-destruct-label">THIS SITE WILL SELF-DESTRUCT IN</p>
-            <p class="self-destruct-timer" id="self-destruct-timer">30</p>
-            <p class="self-destruct-sub">seconds. Goodbye.</p>
-          </div>
-          <p class="self-destruct-goodbye" id="self-destruct-goodbye" hidden>Goodbye.</p>
         </div>
       </div>
     </section>
   </main>
+
+  <div class="self-destruct-overlay" id="self-destruct-overlay" hidden>
+    <div class="self-destruct-modal">
+      <div class="self-destruct-titlebar">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <span class="self-destruct-titlebar-text">WARNING: self_destruct.exe</span>
+      </div>
+      <div class="self-destruct" id="self-destruct">
+        <p class="self-destruct-label">THIS SITE WILL SELF-DESTRUCT IN</p>
+        <p class="self-destruct-timer" id="self-destruct-timer">10</p>
+        <p class="self-destruct-sub">seconds. Goodbye.</p>
+      </div>
+    </div>
+    <p class="self-destruct-goodbye" id="self-destruct-goodbye" hidden>Goodbye.</p>
+  </div>
 
   <script type="module" src="./js/app.js"></script>
 </body>
