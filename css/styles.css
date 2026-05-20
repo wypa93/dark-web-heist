@@ -332,6 +332,59 @@ body.static-burst::after {
   100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
 }
 
+/* Quiz cat runner */
+.quiz-cat-runner[hidden] {
+  display: none !important;
+}
+
+.quiz-cat-runner {
+  position: fixed;
+  z-index: 2500;
+  pointer-events: none;
+  font-size: clamp(2rem, 7vw, 3.25rem);
+  line-height: 1;
+  filter: drop-shadow(0 0 10px var(--glow-toxic));
+}
+
+.quiz-cat-runner.from-left.running {
+  left: -5rem;
+  right: auto;
+  animation: catRunLeft var(--cat-run-duration, 4s) linear forwards;
+}
+
+.quiz-cat-runner.from-right.running {
+  left: auto;
+  right: -5rem;
+  animation: catRunRight var(--cat-run-duration, 4s) linear forwards;
+}
+
+.quiz-cat-sprite {
+  display: inline-block;
+  animation: catBob 0.14s ease-in-out infinite alternate;
+}
+
+.quiz-cat-runner.from-right .quiz-cat-sprite {
+  animation: catBobFlip 0.14s ease-in-out infinite alternate;
+}
+
+@keyframes catRunLeft {
+  to { left: calc(100vw + 5rem); }
+}
+
+@keyframes catRunRight {
+  to { right: calc(100vw + 5rem); }
+}
+
+@keyframes catBob {
+  from { transform: translateY(0) rotate(-6deg); }
+  to { transform: translateY(-7px) rotate(6deg); }
+}
+
+@keyframes catBobFlip {
+  from { transform: scaleX(-1) translateY(0) rotate(-6deg); }
+  to { transform: scaleX(-1) translateY(-7px) rotate(6deg); }
+}
+
 /* HUD */
 .hud {
   position: fixed;
@@ -1492,6 +1545,11 @@ body.site-destroyed {
   .whisper.visible {
     animation: none;
     opacity: 0.85;
+  }
+
+  .quiz-cat-runner,
+  .quiz-cat-sprite {
+    animation: none !important;
   }
 
   .reward-code-area.reveal {

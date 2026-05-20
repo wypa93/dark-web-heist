@@ -19,6 +19,7 @@ const $ = (sel) => document.querySelector(sel);
 const whisperEl = $('#whisper');
 const flashOverlay = $('#flash-overlay');
 const particlesEl = $('#particles');
+const quizCatRunner = $('#quiz-cat-runner');
 const levelProgress = $('#level-progress');
 
 const screens = {
@@ -63,6 +64,8 @@ const selfDestructTimer = $('#self-destruct-timer');
 const selfDestructGoodbye = $('#self-destruct-goodbye');
 
 let selfDestructId = null;
+let quizCatTimeoutId = null;
+let quizCatRunning = false;
 
 let state = {
   currentLevel: 0,
@@ -88,6 +91,48 @@ function init() {
     safeError.hidden = true;
   });
   scheduleAmbientWhisper();
+  scheduleQuizCat();
+}
+
+function scheduleQuizCat() {
+  const delay = 8000 + Math.random() * 22000;
+  quizCatTimeoutId = setTimeout(() => {
+    if (screens.quiz.classList.contains('active') && !state.answering) {
+      runQuizCat();
+    }
+    scheduleQuizCat();
+  }, delay);
+}
+
+function runQuizCat() {
+  if (!quizCatRunner || quizCatRunning) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const fromLeft = Math.random() > 0.35;
+  const top = 12 + Math.random() * 58;
+  const duration = 3200 + Math.random() * 2800;
+
+  quizCatRunning = true;
+  quizCatRunner.hidden = false;
+  quizCatRunner.style.top = `${top}%`;
+  quizCatRunner.style.setProperty('--cat-run-duration', `${duration}ms`);
+  quizCatRunner.classList.remove('from-left', 'from-right', 'running');
+  void quizCatRunner.offsetWidth;
+  quizCatRunner.classList.add(fromLeft ? 'from-left' : 'from-right', 'running');
+
+  const onDone = (e) => {
+    if (e.animationName !== 'catRunLeft' && e.animationName !== 'catRunRight') return;
+    quizCatRunner.removeEventListener('animationend', onDone);
+    dismissQuizCat();
+  };
+  quizCatRunner.addEventListener('animationend', onDone);
+}
+
+function dismissQuizCat() {
+  if (!quizCatRunner) return;
+  quizCatRunner.hidden = true;
+  quizCatRunner.classList.remove('from-left', 'from-right', 'running');
+  quizCatRunning = false;
 }
 
 function scheduleAmbientWhisper() {
@@ -420,6 +465,7 @@ function flashMessage(msg) {
 
 function failRestart(message) {
   clearTimer();
+  dismissQuizCat();
   setDreadMode(false);
   hud.classList.remove('visible');
   showScreen('landing');
