@@ -12,6 +12,7 @@
   --danger: #ff4444;
   --text: #b8c4b8;
   --dim: #4a5a4a;
+  --accent: var(--phosphor);
   --gold: #c9a227;
   --felt: #0a120a;
   --border: rgba(0, 255, 65, 0.35);
@@ -1234,7 +1235,11 @@ body.static-burst::after {
   to { transform: rotate(0) scale(1); opacity: 1; }
 }
 
-.screen.active.casino .prize-card {
+.screen.active.casino .prize-picker {
+  animation: fadeIn 0.45s ease both;
+}
+
+.screen.active.casino .prize-reveal:not([hidden]) .prize-card {
   animation: fadeIn 0.5s ease 0.2s both;
 }
 
@@ -1298,6 +1303,8 @@ body.static-burst::after {
   gap: 0.35rem;
   padding: 1rem;
   min-height: 8.5rem;
+  width: 100%;
+  font-family: var(--font-mono);
   text-align: left;
   border-radius: 8px;
   border: 2px solid var(--border);
@@ -1403,6 +1410,10 @@ body.static-burst::after {
   font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--amber);
+}
+
+.prize-reveal[hidden] {
+  display: none !important;
 }
 
 .prize-reveal {
@@ -1655,7 +1666,7 @@ body.destruct-active {
   margin-bottom: 0.75rem !important;
 }
 
-.screen.active.casino .prize-icon {
+.screen.active.casino .prize-reveal:not([hidden]) .prize-icon {
   animation: spinIcon 1s ease-out 0.3s;
 }
 
@@ -1754,8 +1765,9 @@ body.site-destroyed {
   .level-dot.current,
   .screen.active,
   .screen.active.casino .casino-frame,
-  .screen.active.casino .prize-icon,
-  .screen.active.casino .prize-card,
+  .screen.active.casino .prize-reveal:not([hidden]) .prize-icon,
+  .screen.active.casino .prize-reveal:not([hidden]) .prize-card,
+  .screen.active.casino .prize-picker,
   .rules li,
   .screen-title,
   .hud {

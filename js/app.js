@@ -649,6 +649,11 @@ function onPickMainPrize() {
   prizeMainReveal.classList.remove('reveal-in');
   void prizeMainReveal.offsetWidth;
   prizeMainReveal.classList.add('reveal-in');
+  prizeMainReveal.querySelectorAll('.prize-card, .prize-icon, .prize-map').forEach((el) => {
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = '';
+  });
 }
 
 function onPickAltPrize() {
@@ -660,6 +665,11 @@ function onPickAltPrize() {
   prizeAltReveal.classList.remove('reveal-in');
   void prizeAltReveal.offsetWidth;
   prizeAltReveal.classList.add('reveal-in');
+  prizeAltReveal.querySelectorAll('.prize-card, .prize-icon').forEach((el) => {
+    el.style.animation = 'none';
+    void el.offsetWidth;
+    el.style.animation = '';
+  });
 }
 
 function generateRewardCode() {
