@@ -73,6 +73,7 @@ let selfDestructId = null;
 let quizCatTimeoutId = null;
 let quizCatRunning = false;
 let jokePopupTimeoutId = null;
+let altUnlockTimeoutId = null;
 let prizeChoice = null;
 
 let state = {
@@ -620,6 +621,7 @@ function showReward() {
 }
 
 function resetPrizeChoice() {
+  clearAltUnlockTimeout();
   prizeChoice = null;
   if (prizePicker) prizePicker.hidden = false;
   if (prizeMainReveal) prizeMainReveal.hidden = true;
@@ -641,10 +643,38 @@ function lockPrizeOption(selectedBtn, otherBtn) {
   otherBtn.disabled = true;
 }
 
+function clearAltUnlockTimeout() {
+  if (altUnlockTimeoutId) {
+    clearTimeout(altUnlockTimeoutId);
+    altUnlockTimeoutId = null;
+  }
+}
+
+function unlockMainAfterAltJoke() {
+  if (prizeChoice !== 'alt' || !btnPickMain) return;
+  btnPickMain.classList.remove('locked');
+  btnPickMain.disabled = false;
+  const tagline = prizeAltReveal?.querySelector('.prize-alt-status');
+  if (tagline) tagline.textContent = 'Option A unlocked — tap to switch.';
+}
+
 function onPickMainPrize() {
-  if (prizeChoice) return;
+  if (prizeChoice === 'main') return;
+  if (prizeChoice === 'alt' && btnPickMain?.disabled) return;
+
+  const fromAlt = prizeChoice === 'alt';
+  clearAltUnlockTimeout();
   prizeChoice = 'main';
-  lockPrizeOption(btnPickMain, btnPickAlt);
+
+  btnPickMain?.classList.add('selected');
+  btnPickMain.disabled = true;
+  btnPickAlt?.classList.add('locked');
+  if (btnPickAlt) btnPickAlt.disabled = true;
+
+  if (fromAlt && prizeAltReveal) {
+    prizeAltReveal.hidden = true;
+  }
+
   prizeMainReveal.hidden = false;
   prizeMainReveal.classList.remove('reveal-in');
   void prizeMainReveal.offsetWidth;
@@ -670,6 +700,8 @@ function onPickAltPrize() {
     void el.offsetWidth;
     el.style.animation = '';
   });
+  clearAltUnlockTimeout();
+  altUnlockTimeoutId = setTimeout(unlockMainAfterAltJoke, 5000);
 }
 
 function generateRewardCode() {
