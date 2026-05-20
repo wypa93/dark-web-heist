@@ -35,6 +35,11 @@ const symbolSlots = $('#symbol-slots');
 const btnStart = $('#btn-start');
 const btnContinue = $('#btn-continue');
 const btnClaim = $('#btn-claim');
+const btnPickMain = $('#btn-pick-main');
+const btnPickAlt = $('#btn-pick-alt');
+const prizePicker = $('#prize-picker');
+const prizeMainReveal = $('#prize-main-reveal');
+const prizeAltReveal = $('#prize-alt-reveal');
 
 const quizTitle = $('#quiz-title');
 const levelLabel = $('#level-label');
@@ -58,6 +63,7 @@ const safeStatus = $('#safe-status');
 const rewardCodeArea = $('#reward-code-area');
 const rewardCodeEl = $('#reward-code');
 const toast = $('#toast');
+const jokePopup = $('#joke-popup');
 const selfDestruct = $('#self-destruct');
 const selfDestructOverlay = $('#self-destruct-overlay');
 const selfDestructTimer = $('#self-destruct-timer');
@@ -66,6 +72,8 @@ const selfDestructGoodbye = $('#self-destruct-goodbye');
 let selfDestructId = null;
 let quizCatTimeoutId = null;
 let quizCatRunning = false;
+let jokePopupTimeoutId = null;
+let prizeChoice = null;
 
 let state = {
   currentLevel: 0,
@@ -87,6 +95,8 @@ function init() {
   btnContinue.addEventListener('click', onContinueAfterSymbol);
   unlockForm.addEventListener('submit', onUnlockSubmit);
   btnClaim.addEventListener('click', onClaimReward);
+  btnPickMain?.addEventListener('click', onPickMainPrize);
+  btnPickAlt?.addEventListener('click', onPickAltPrize);
   unlockInput.addEventListener('input', () => {
     safeError.hidden = true;
   });
@@ -603,9 +613,53 @@ function showSafeError(msg) {
 
 function showReward() {
   showScreen('reward');
+  resetPrizeChoice();
   rewardCodeArea.hidden = true;
   rewardCodeArea.classList.remove('reveal');
   rewardCodeEl.textContent = '';
+}
+
+function resetPrizeChoice() {
+  prizeChoice = null;
+  if (prizePicker) prizePicker.hidden = false;
+  if (prizeMainReveal) prizeMainReveal.hidden = true;
+  if (prizeAltReveal) prizeAltReveal.hidden = true;
+  if (btnPickMain) {
+    btnPickMain.disabled = false;
+    btnPickMain.classList.remove('selected', 'locked');
+  }
+  if (btnPickAlt) {
+    btnPickAlt.disabled = false;
+    btnPickAlt.classList.remove('selected', 'locked');
+  }
+  if (btnClaim) btnClaim.hidden = false;
+}
+
+function lockPrizeOption(selectedBtn, otherBtn) {
+  selectedBtn?.classList.add('selected');
+  otherBtn?.classList.add('locked');
+  otherBtn.disabled = true;
+}
+
+function onPickMainPrize() {
+  if (prizeChoice) return;
+  prizeChoice = 'main';
+  lockPrizeOption(btnPickMain, btnPickAlt);
+  prizeMainReveal.hidden = false;
+  prizeMainReveal.classList.remove('reveal-in');
+  void prizeMainReveal.offsetWidth;
+  prizeMainReveal.classList.add('reveal-in');
+}
+
+function onPickAltPrize() {
+  if (prizeChoice) return;
+  prizeChoice = 'alt';
+  lockPrizeOption(btnPickAlt, btnPickMain);
+  showJokePopup();
+  prizeAltReveal.hidden = false;
+  prizeAltReveal.classList.remove('reveal-in');
+  void prizeAltReveal.offsetWidth;
+  prizeAltReveal.classList.add('reveal-in');
 }
 
 function generateRewardCode() {
@@ -694,6 +748,24 @@ function showToast(msg = 'Code copied! Show it to Pascal.') {
   setTimeout(() => {
     toast.hidden = true;
   }, 2500);
+}
+
+function showJokePopup() {
+  if (!jokePopup) return;
+  if (jokePopupTimeoutId) clearTimeout(jokePopupTimeoutId);
+
+  jokePopup.hidden = false;
+  jokePopup.classList.remove('visible');
+  void jokePopup.offsetWidth;
+  jokePopup.classList.add('visible');
+
+  jokePopupTimeoutId = setTimeout(() => {
+    jokePopup.classList.remove('visible');
+    jokePopupTimeoutId = setTimeout(() => {
+      jokePopup.hidden = true;
+      jokePopupTimeoutId = null;
+    }, 280);
+  }, 3200);
 }
 
 init();
