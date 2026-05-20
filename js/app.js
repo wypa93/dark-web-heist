@@ -1,5 +1,5 @@
-import { SAFE_CONFIG } from './config.js';
-import { QUESTIONS } from './questions.js';
+import { SAFE_CONFIG } from './config.js?v=661b92a';
+import { QUESTIONS } from './questions.js?v=661b92a';
 
 const TIMER_SECONDS = 30;
 const MAX_RETRIES = 3;
